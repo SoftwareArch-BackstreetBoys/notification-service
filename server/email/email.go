@@ -31,7 +31,7 @@ func SendEmail(sender string, receiver string, subject string, body string) erro
     m.SetHeader("Subject", subject)
     m.SetBody("text/plain", body)
 
-    d := gomail.NewDialer("smtp.gmail.com", 587, sender, "lhgz xhun sxzw ntwi")
+    d := gomail.NewDialer("smtp.gmail.com", 587, sender, "caed ljer nuek yof")
 
     if err := d.DialAndSend(m); err != nil {
         log.Printf("Failed to send email: %v", err)
