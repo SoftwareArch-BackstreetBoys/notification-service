@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"log"
 
+	env "github.com/SoftwareArch-BackstreetBoys/notification-service/configs"
 	"gopkg.in/gomail.v2"
 )
 
@@ -31,7 +32,7 @@ func SendEmail(sender string, receiver string, subject string, body string) erro
     m.SetHeader("Subject", subject)
     m.SetBody("text/plain", body)
 
-    d := gomail.NewDialer("smtp.gmail.com", 587, sender, "oizn cdoy kgmr txrs")
+    d := gomail.NewDialer("smtp.gmail.com", 587, sender, env.EnvAppPassword())
 
     if err := d.DialAndSend(m); err != nil {
         log.Printf("Failed to send email: %v", err)
