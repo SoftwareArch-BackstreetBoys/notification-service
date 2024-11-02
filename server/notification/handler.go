@@ -12,44 +12,44 @@ import (
 )
 
 func NotifyEventUpdate(d *amqp.Delivery) {
-    // Handle event update logic
-    log.Println("Sending test email...")
+	// Handle event update logic
+	log.Println("Sending test email...")
 
-    var notificationMsg models.NotificationMessage
-    err := json.Unmarshal(d.Body, &notificationMsg)
-    if err != nil {
-        log.Printf("Error decoding JSON: %v", err)
-        return
-    }
+	var notificationMsg models.NotificationMessage
+	err := json.Unmarshal(d.Body, &notificationMsg)
+	if err != nil {
+		log.Printf("Error decoding JSON: %v", err)
+		return
+	}
 
-    log.Printf("Received notification: %+v", notificationMsg)
+	log.Printf("Received notification: %+v", notificationMsg)
 
-    notificationLog := models.MongoNotificationLog{
-        NotificationType: notificationMsg.NotificationType,
-        Sender:           notificationMsg.Sender,
-        Receiver:         notificationMsg.Receiver,
-        Subject:          notificationMsg.Subject,
-        BodyMessage:      notificationMsg.BodyMessage,
-        Status:           notificationMsg.Status,
-        Timestamp:        time.Now(), // Add current time as the timestamp
-    }
+	notificationLog := models.MongoNotificationLog{
+		NotificationType: notificationMsg.NotificationType,
+		Sender:           notificationMsg.Sender,
+		Receiver:         notificationMsg.Receiver,
+		Subject:          notificationMsg.Subject,
+		BodyMessage:      notificationMsg.BodyMessage,
+		Status:           notificationMsg.Status,
+		Timestamp:        time.Now(), // Add current time as the timestamp
+	}
 
-    err = email.SendEmail(
-        notificationLog.Sender,
-        notificationLog.Receiver,
-        notificationLog.Subject,
-        notificationLog.BodyMessage,
-    )
+	err = email.SendEmail(
+		notificationLog.Sender,
+		notificationLog.Receiver,
+		notificationLog.Subject,
+		notificationLog.BodyMessage,
+	)
 
-    if err != nil {
-        notificationLog.Status = "failed"
-        notificationLog.ErrorMessage = err.Error()
-    }else {
-        notificationLog.Status = "success"
-    }
+	if err != nil {
+		notificationLog.Status = "failed"
+		notificationLog.ErrorMessage = err.Error()
+	} else {
+		notificationLog.Status = "success"
+	}
 
-    logger.LogNotification(&notificationLog)
+	logger.LogNotification(&notificationLog)
 
-    log.Println("Processing event update")
-    // Log the event update
+	log.Println("Processing event update")
+	// Log the event update
 }
