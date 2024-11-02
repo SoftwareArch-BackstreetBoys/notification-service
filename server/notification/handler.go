@@ -8,7 +8,6 @@ import (
 	"github.com/SoftwareArch-BackstreetBoys/notification-service/email"
 	"github.com/SoftwareArch-BackstreetBoys/notification-service/logger"
 	"github.com/SoftwareArch-BackstreetBoys/notification-service/models"
-	"github.com/SoftwareArch-BackstreetBoys/notification-service/util"
 	amqp "github.com/rabbitmq/amqp091-go"
 )
 
@@ -35,11 +34,9 @@ func NotifyEventUpdate(d *amqp.Delivery) {
 		Timestamp:        time.Now(), // Add current time as the timestamp
 	}
 
-	receiverEmail := util.GetUserEmailById(notificationMsg.Receiver)
-
 	err = email.SendEmail(
 		notificationLog.Sender,
-		receiverEmail,
+		notificationLog.Receiver,
 		notificationLog.Subject,
 		notificationLog.BodyMessage,
 	)
