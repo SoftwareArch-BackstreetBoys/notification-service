@@ -12,5 +12,6 @@ services:
     container_name: notification-service
     ports:
       - "8081:8081"
+      - "8082:8082"
     networks:
       - shared-network

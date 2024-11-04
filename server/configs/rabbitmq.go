@@ -2,12 +2,13 @@ package configs
 
 import (
 	"log"
+	"os"
 
 	amqp "github.com/rabbitmq/amqp091-go"
 )
 
 func ConnectRabbitMQ() (*amqp.Channel, error) {
-    conn, err := amqp.Dial("amqp://guest:guest@shared-rabbitmq:5672/")
+    conn, err := amqp.Dial(os.Getenv("RABBITMQ_CONNECTION"))
     if err != nil {
         log.Fatalf("Failed to connect to RabbitMQ: %s", err)
         return nil, err

@@ -24,3 +24,12 @@ func EnvAppPassword() string {
 
 	return os.Getenv("APP_PASSWORD")
 }
+
+func EnvRabbitMQURI() string {
+	err := godotenv.Load()
+	if err != nil {
+		log.Fatal("Error loading .env file")
+	}
+
+	return os.Getenv("RABBITMQ_CONNECTION")
+}
